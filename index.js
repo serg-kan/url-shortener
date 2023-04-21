@@ -5,7 +5,7 @@ const redis = require('redis');
 
 const app = express();
 
-const { getAll, createShortUrl } = require('./controller');
+const { getAll, createShortUrl, redirectToUrl } = require('./controller');
 const port = 3000;
 
 // establish Redis connection
@@ -23,8 +23,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public' ));
 
 
+
 app.get('/', (req, res) => {
   getAll(req, res, client);
+});
+
+app.get('/:shortUrl', (req, res) => {
+  redirectToUrl(req, res, client);
 });
 
 app.post('/', (req, res) => {
